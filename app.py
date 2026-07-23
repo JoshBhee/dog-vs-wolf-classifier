@@ -23,14 +23,20 @@ if uploaded_file is not None:
 	img_array = np.array(img) / 255.0
 	img_array = np.expand_dims(img_array, axis=0)
 
-	prediction = model.predict(img_array)[0][0]
+prediction = model.predict(img_array)[0][0]
 
+confidence_gap = abs(prediction - 0.5)
+
+if confidence_gap < 0.15:
+	st.error("⚠️ Error: This does not appear to be a dog or a wolf. Please upload a clearer image of one.")
+else:
 	if prediction > 0.5:
-    		label = "Wolf"
-    		confidence = prediction * 100
+		label = "Wolf"
+		confidence = prediction * 100
 	else:
-    		label = "Dog"
-    		confidence = (1 - prediction) * 100
+		label = "Dog"
+		confidence = (1 - prediction) * 100
 
 	st.subheader(f"Prediction: {label}")
 	st.write(f"Confidence: {confidence:.2f}%")
+
