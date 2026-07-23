@@ -3,18 +3,18 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 
-Load the trained model
+# Load the trained model
 @st.cache_resource
 def load_model():
 return tf.keras.models.load_model("dog_vs_wolf_model.h5")
 
 model = load_model()
 
-App title
+# App title
 st.title("🐶 Dog vs 🐺 Wolf Classifier")
 st.write("Upload an image and the model will predict whether it is a dog or a wolf.")
 
-Upload image
+# Upload image
 uploaded_file = st.file_uploader(
 "Choose an image...",
 type=["jpg", "jpeg", "png"]
