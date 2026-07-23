@@ -30,19 +30,22 @@ if uploaded_file is not None:
 
     try:
         prediction = float(model.predict(img_array, verbose=0)[0][0])
-        confidence_gap = abs(prediction - 0.5)
 
-        if confidence_gap < 0.15:
-            st.error("⚠️ This does not appear to be a dog or a wolf. Please upload a clearer image.")
-        else:
-            if prediction > 0.9:
-                label = "🐺 Wolf"
-                confidence = prediction * 100
-            else:
-                label = "🐶 Dog"
-                confidence = (1 - prediction) * 100
+dog_conf = 1 - prediction
+wolf_conf = prediction
+confidence = max(dog_conf, wolf_conf)
 
-            st.subheader(f"Prediction: {label}")
-            st.write(f"Confidence: {confidence:.2f}%")
-    except Exception as e:
-        st.error(f"Prediction failed: {e}")
+# Reject predictions if confidence is too low
+if confidence < 0.85:
+    st.error(
+        "⚠️ The model is not confident this image is a dog or a wolf. "
+        "Please upload another image."
+    )
+else:
+    if wolf_conf > dog_conf:
+        label = "🐺 Wolf"
+    else:
+        label = "🐶 Dog"
+
+    st.subheader(f"Prediction: {label}")
+    st.write(f"Confidence: {confidence * 100:.2f}%")
