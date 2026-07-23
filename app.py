@@ -29,11 +29,11 @@ if uploaded_file is not None:
     img_array = np.expand_dims(img_array, axis=0)
 
     try:
-    prediction = float(model.predict(img_array, verbose=0)[0][0])
+        prediction = float(model.predict(img_array, verbose=0)[0][0])
 
-    dog_conf = 1 - prediction
-    wolf_conf = prediction
-    confidence = max(dog_conf, wolf_conf)
+        dog_conf = 1 - prediction
+        wolf_conf = prediction
+        confidence = max(dog_conf, wolf_conf)
 
     # Reject uncertain predictions
     if confidence < 0.85:
