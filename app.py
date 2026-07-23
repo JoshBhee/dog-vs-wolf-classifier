@@ -28,7 +28,7 @@ if uploaded_file is not None:
     img_array = np.array(img, dtype=np.float32) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-try:
+    try:
     prediction = float(model.predict(img_array, verbose=0)[0][0])
 
     dog_conf = 1 - prediction
