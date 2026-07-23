@@ -29,7 +29,7 @@ if uploaded_file is not None:
 	confidence_gap = abs(prediction - 0.5)
 
 	if confidence_gap < 0.15:
-    	st.error("⚠️ This does not appear to be a dog or a wolf.")
+    		st.error("⚠️ This does not appear to be a dog or a wolf.")
 	else:
     	if prediction > 0.5:
         	label = "Wolf"
