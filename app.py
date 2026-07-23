@@ -29,23 +29,25 @@ if uploaded_file is not None:
     img_array = np.expand_dims(img_array, axis=0)
 
 try:
-      prediction = float(model.predict(img_array, verbose=0)[0][0])
+    prediction = float(model.predict(img_array, verbose=0)[0][0])
 
-dog_conf = 1 - prediction
-wolf_conf = prediction
-confidence = max(dog_conf, wolf_conf)
+    dog_conf = 1 - prediction
+    wolf_conf = prediction
+    confidence = max(dog_conf, wolf_conf)
 
-# Reject predictions if confidence is too low
-if confidence < 0.85:
-    st.error(
-        "⚠️ The model is not confident this image is a dog or a wolf. "
-        "Please upload another image."
-    )
-else:
-    if wolf_conf > dog_conf:
-        label = "🐺 Wolf"
+    # Reject uncertain predictions
+    if confidence < 0.85:
+        st.error(
+            "⚠️ The model is not confident this image is a dog or a wolf. Please upload another image."
+        )
     else:
-        label = "🐶 Dog"
+        if wolf_conf > dog_conf:
+            label = "🐺 Wolf"
+        else:
+            label = "🐶 Dog"
 
-    st.subheader(f"Prediction: {label}")
-    st.write(f"Confidence: {confidence * 100:.2f}%")
+        st.subheader(f"Prediction: {label}")
+        st.write(f"Confidence: {confidence * 100:.2f}%")
+
+except Exception as e:
+    st.error(f"Prediction failed: {e}")
