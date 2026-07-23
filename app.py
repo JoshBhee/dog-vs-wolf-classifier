@@ -23,7 +23,7 @@ if uploaded_file is not None:
 	img_array = np.array(img) / 255.0
 	img_array = np.expand_dims(img_array, axis=0)
 
-prediction = model.predict(img_array)[0][0]
+	prediction = model.predict(img_array)[0][0]
 
 confidence_gap = abs(prediction - 0.5)
 
