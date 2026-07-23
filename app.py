@@ -21,14 +21,14 @@ type=["jpg", "jpeg", "png"]
 )
 
 if uploaded_file is not None:
-# Open image
-image = Image.open(uploaded_file).convert("RGB")
-st.image(image, caption="Uploaded Image", use_container_width=True)
+    # Open image
+    image = Image.open(uploaded_file).convert("RGB")
+    st.image(image, caption="Uploaded Image", use_container_width=True)
 
-# Resize and preprocess
-img = image.resize((160, 160))
-img_array = np.array(img, dtype=np.float32) / 255.0
-img_array = np.expand_dims(img_array, axis=0)
+    # Resize and preprocess
+    img = image.resize((160, 160))
+    img_array = np.array(img, dtype=np.float32) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
 
 try:
     # Make prediction
